@@ -22,7 +22,7 @@ public class VipeFile {
    int fileSize;
    String fileName;
    Color sectorColor;
-   static int fileID;
+   int fileID;
 
     public VipeFile(int size, String name, Color color, int fileID) {
         setFileSize(size);
@@ -43,7 +43,6 @@ public class VipeFile {
 
     public void setChunks(ArrayList<Chunk> chunks) {
         this.chunks = chunks;
-        System.out.println(toString());
     }
 
     public int getFileSize() {

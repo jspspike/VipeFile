@@ -22,17 +22,20 @@ public class VipeTableLogic {
     Scanner keyboard = new Scanner(System.in);
     
     public VipeTableLogic() {
-        int hard[] = new int[600];
+        /*int hard[] = new int[600];
         for (int i = 5; i < 20; i++) {
             hard[i] = 5;
-        }
-        dir = new Directory(new ArrayList<>(), hard);
+        }*/
+        dir = new Directory(new ArrayList<>(), new int[600]);
         while (true) {
             System.out.println("ViperTable Functions:");
-            System.out.println("\t 1) Import Data");
-            System.out.println("\t 1) Delete File");
             System.out.println("\t 1) Add File");
-            System.out.println("\t 4) Edd File");
+            System.out.println("\t 2) Delete File");
+            System.out.println("\t 3) Import File");
+            System.out.println("\t 4) Edit File");
+            System.out.println("\t 5) Display Grid");
+            System.out.println("\t 6) Display Files");
+ 
             
 
             
@@ -56,6 +59,11 @@ public class VipeTableLogic {
                 case 4:
                     editData();
                     break;
+                case 5:
+                    System.out.println(dir);
+                    break;
+                case 6:
+                    System.out.println(dir.files.toString());
             }
         }
     }
@@ -68,9 +76,6 @@ public class VipeTableLogic {
         return 0;
     }
     
-    private Chunk getNextChunk() {
-        return new Chunk(0,0);
-    }
     
     private int getNextColor(){
         //ToDo once we make GUI
