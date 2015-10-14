@@ -72,7 +72,12 @@ public class VipeFile {
     public int getFileID() {
         return fileID;
     }
-
+    
+    private String getColorName(Color col) {
+        if (col.getRed() == 255 && col.getRed() == 255 && col.getRed() == 255)
+            return "White";
+        return "";
+    }
 
    @Override
    public String toString() {
@@ -87,6 +92,6 @@ public class VipeFile {
        for (int i = 0; i < chunks.size(); i++) {
            cstrings += "<" + chunks.get(i) + "> ";
        }
-       return "" + fileID + " " + fileName + " (" + sectorColor + ", " + fileSize + "s)\n    " + cstrings;
+       return "" + fileID + " " + fileName + " (" + getColorName(sectorColor) + ", " + fileSize + "s) " + cstrings;
    }
 }

@@ -62,6 +62,34 @@ public class Directory {
         files.add(file);
 
     }
+    
+    public void deleteFile(int id) {
+        for (int i = 0; i < sectors.length; i++) {
+            if (sectors[i] == id) {
+                sectors[i] = 0;
+            }
+        }
+        
+        for (int i = 0; i < files.size(); i++) {
+            if (files.get(i).getFileID() == id) {
+                files.remove(i);
+            }
+        }
+    }
+    
+    public void editFile(int id, int size, String name) {
+        int diff;
+        for (int i = 0; i < files.size(); i++) {
+            if (files.get(i).getFileID() == id) {
+                if (files.get(i).getFileSize() == size) {
+                    return;
+                }
+                if (files.get(i).getFileSize() > size) {
+                    
+                }
+            }
+        }
+    }
 
     public void setFiles(ArrayList<VipeFile> files) {
         this.files = files;

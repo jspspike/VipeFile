@@ -51,10 +51,10 @@ public class VipeTableLogic {
                     }
                     break;
                 case 2:
-                    writeData();
+                    deleteFile();
                     break;
                 case 3:
-                    deleteFile(0);
+                    deleteFile();
                     break;
                 case 4:
                     editData();
@@ -94,12 +94,55 @@ public class VipeTableLogic {
         
     }
     
-    private void deleteFile(int fileID) {
-        
+    private void deleteFile() {
+        System.out.println(dir.files.toString());
+        System.out.println("\t 1) FileID");
+        System.out.println("\t 2) Name");
+        String choice = keyboard.next();
+            
+        switch (new Integer(choice)) {
+            case 1:
+                System.out.println("\t Please type file ID");
+                choice = keyboard.next();
+                dir.deleteFile(new Integer(choice));
+                break;
+            case 2:
+                System.out.println("\t Please type file name");
+                choice = keyboard.next();
+                for (int i = 0; i < dir.files.size(); i++) {
+                    if (choice.equals(dir.files.size())) {
+                        dir.deleteFile(dir.files.get(i).getFileID());
+                        break;
+                    }
+                }
+                break;
+        }
+
     }
     
     private void editFile(int fileID, int sectorChange) {
-        
+        System.out.println(dir.files.toString());
+        System.out.println("\t 1) FileID");
+        System.out.println("\t 2) Name");
+        String choice = keyboard.next();
+            
+        switch (new Integer(choice)) {
+            case 1:
+                System.out.println("\t Please type file ID");
+                choice = keyboard.next();
+                dir.editFile(new Integer(choice));
+                break;
+            case 2:
+                System.out.println("\t Please type file name");
+                choice = keyboard.next();
+                for (int i = 0; i < dir.files.size(); i++) {
+                    if (choice.equals(dir.files.size())) {
+                        dir.editFile(dir.files.get(i).getFileID());
+                        break;
+                    }
+                }
+                break;
+        }
     }
     /**
      * @param args the command line arguments
