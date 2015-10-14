@@ -102,6 +102,10 @@ public class Directory {
                         }
                     }
                 }
+                files.get(i).setFileName(name);
+                files.get(i).setFileSize(size);
+                files.get(i).setChunks(getChunks(id));
+                break;
             }
         }
     }
