@@ -85,7 +85,22 @@ public class Directory {
                     return;
                 }
                 if (files.get(i).getFileSize() > size) {
-                    
+                    diff = files.get(i).getFileSize() - size;
+                    for (int j = 0; j < diff; j++) {
+                        sectors[files.get(i).getChunk(0).getStartIndex() + j] = 0;
+                    }
+                }
+                
+                if (files.get(i).getFileSize() < size) {
+                    diff = size - files.get(i).getFileSize();
+                    for (int j = 0; j < diff; j++) {
+                        for (int k = 0; k < sectors.length; k++) {
+                            if (sectors[j] == 0) {
+                                sectors[j] = id;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }

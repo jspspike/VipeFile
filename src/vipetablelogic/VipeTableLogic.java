@@ -125,19 +125,30 @@ public class VipeTableLogic {
         System.out.println("\t 1) FileID");
         System.out.println("\t 2) Name");
         String choice = keyboard.next();
+        String name;
+        int size;
             
         switch (new Integer(choice)) {
             case 1:
                 System.out.println("\t Please type file ID");
                 choice = keyboard.next();
-                dir.editFile(new Integer(choice));
+                System.out.println("\t Eneter the new name");
+                name = keyboard.next();
+                System.out.println("\t Eneter the new size");
+                size = new Integer(keyboard.next());
+                dir.editFile(new Integer(choice), size, name);
+                
                 break;
             case 2:
                 System.out.println("\t Please type file name");
                 choice = keyboard.next();
                 for (int i = 0; i < dir.files.size(); i++) {
                     if (choice.equals(dir.files.size())) {
-                        dir.editFile(dir.files.get(i).getFileID());
+                        System.out.println("\t Eneter the new name");
+                        name = keyboard.next();
+                        System.out.println("\t Eneter the new size");
+                        size = new Integer(keyboard.next());
+                        dir.editFile(dir.files.get(i).getFileID(), size, name);
                         break;
                     }
                 }

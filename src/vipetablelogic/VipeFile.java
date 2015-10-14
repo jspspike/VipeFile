@@ -40,7 +40,11 @@ public class VipeFile {
     public ArrayList<Chunk> getChunks() {
         return chunks;
     }
-
+    
+    public Chunk getChunk(int ind) {
+        return chunks.get(ind);
+    }
+    
     public void setChunks(ArrayList<Chunk> chunks) {
         this.chunks = chunks;
     }
