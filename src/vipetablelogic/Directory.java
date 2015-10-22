@@ -87,8 +87,9 @@ public class Directory {
                 if (files.get(i).getFileSize() > size) {
                     diff = files.get(i).getFileSize() - size;
                     for (int j = 0; j < diff; j++) {
-                        sectors[files.get(i).getChunk(0).getStartIndex() - 1 + j] = 0;
+                        sectors[files.get(i).getChunk(files.size() - 1).getEndIndex() - 1 - j] = 0;
                     }
+                    break;
                 }
                 
                 if (files.get(i).getFileSize() < size) {

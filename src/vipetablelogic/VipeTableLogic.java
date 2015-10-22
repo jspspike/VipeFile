@@ -57,7 +57,7 @@ public class VipeTableLogic {
                     deleteFile();
                     break;
                 case 4:
-                    editData();
+                    editFile();
                     break;
                 case 5:
                     System.out.println(dir);
@@ -110,7 +110,7 @@ public class VipeTableLogic {
                 System.out.println("\t Please type file name");
                 choice = keyboard.next();
                 for (int i = 0; i < dir.files.size(); i++) {
-                    if (choice.equals(dir.files.size())) {
+                    if (choice.equals(dir.files.get(i))) {
                         dir.deleteFile(dir.files.get(i).getFileID());
                         break;
                     }
@@ -120,7 +120,7 @@ public class VipeTableLogic {
 
     }
     
-    private void editFile(int fileID, int sectorChange) {
+    private void editFile() {
         System.out.println(dir.files.toString());
         System.out.println("\t 1) FileID");
         System.out.println("\t 2) Name");
@@ -143,7 +143,7 @@ public class VipeTableLogic {
                 System.out.println("\t Please type file name");
                 choice = keyboard.next();
                 for (int i = 0; i < dir.files.size(); i++) {
-                    if (choice.equals(dir.files.size())) {
+                    if (choice.equals(dir.files.get(i))) {
                         System.out.println("\t Eneter the new name");
                         name = keyboard.next();
                         System.out.println("\t Eneter the new size");
