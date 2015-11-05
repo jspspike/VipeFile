@@ -105,6 +105,15 @@ public class Directory implements Serializable{
                     sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() + i] = id;
                 }
             }
+            
+            /*for (int i = 0; i < diff; i++) {
+                for (int j = 0; j < sectors.length; j++) {
+                    if (sectors[j] == 0) {
+                        sectors[j] = id;
+                        break;
+                    }
+                }
+            }*/
         }
         
         else {
