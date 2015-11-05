@@ -7,13 +7,14 @@ package vipetablelogic;
  */
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author johnson_849323
  */
-public class VipeFile {
+public class VipeFile implements Serializable{
     /*A data class that keeps track of chunks as they are allowcated across the directory
     then displayed in the directory. Will contain file id, name, color, size and chunks
     */

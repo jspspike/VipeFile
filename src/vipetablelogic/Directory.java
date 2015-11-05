@@ -1,5 +1,6 @@
 package vipetablelogic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /*
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author johnson_849323
  */
-public class Directory {
+public class Directory implements Serializable{
 
     ArrayList<VipeFile> files;
     int[] sectors;
@@ -46,7 +47,8 @@ public class Directory {
     }
 
     public void addFile(VipeFile file) {
-
+        
+        
         int size = file.getFileSize();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < sectors.length; j++) {
@@ -79,36 +81,48 @@ public class Directory {
     
     public void editFile(int id, int size, String name) {
         int diff;
+        int index = -1;
         for (int i = 0; i < files.size(); i++) {
             if (files.get(i).getFileID() == id) {
-                if (files.get(i).getFileSize() == size) {
-                    return;
-                }
-                if (files.get(i).getFileSize() > size) {
-                    diff = files.get(i).getFileSize() - size;
-                    for (int j = 0; j < diff; j++) {
-                        sectors[files.get(i).getChunk(files.size() - 1).getEndIndex() - 1 - j] = 0;
-                    }
-                    break;
-                }
-                
-                if (files.get(i).getFileSize() < size) {
-                    diff = size - files.get(i).getFileSize();
-                    for (int j = 0; j < diff; j++) {
-                        for (int k = 0; k < sectors.length; k++) {
-                            if (sectors[j] == 0) {
-                                sectors[j] = id;
-                                break;
-                            }
-                        }
-                    }
-                }
-                files.get(i).setFileName(name);
-                files.get(i).setFileSize(size);
-                files.get(i).setChunks(getChunks(id));
+                index = i;
                 break;
             }
         }
+        
+       
+        
+        if (files.get(index).getFileSize() == size)
+            return;
+        
+        if (files.get(index).getFileSize() < size) {
+            diff = size - files.get(index).getFileSize();
+            
+            for (int i = 0; i < diff; i++) {
+                if (sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() + i] != 0) {
+                    diff++;
+                }
+                else {
+                    sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() + i] = id;
+                }
+            }
+        }
+        
+        else {
+            int endofdelete = 0;
+            diff = files.get(index).getFileSize() - size;
+            for (int i = diff; i > endofdelete; i--) {
+                if (sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() - 1] != id) {
+                    endofdelete--;
+                }
+                else {
+                    sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() - i] = 0; 
+                }
+            }
+        }
+        
+        files.get(index).setFileName(name);
+        files.get(index).setFileSize(size);
+        files.get(index).setChunks(getChunks(id));
     }
 
     public void setFiles(ArrayList<VipeFile> files) {

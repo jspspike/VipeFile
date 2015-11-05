@@ -22,10 +22,7 @@ public class VipeTableLogic {
     Scanner keyboard = new Scanner(System.in);
     
     public VipeTableLogic() {
-        /*int hard[] = new int[600];
-        for (int i = 5; i < 20; i++) {
-            hard[i] = 5;
-        }*/
+
         dir = new Directory(new ArrayList<>(), new int[600]);
         while (true) {
             System.out.println("ViperTable Functions:");
@@ -67,6 +64,7 @@ public class VipeTableLogic {
             }
         }
     }
+    
     
     private String getChunkString(int fileID) {
         return "";
