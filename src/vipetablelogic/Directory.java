@@ -26,7 +26,7 @@ public class Directory implements Serializable{
         return files;
     }
 
-    public ArrayList<Chunk> getChunks(int fileID) {
+    public ArrayList<Chunk> getChunks(int fileID) { //Gets the chunks from the sectors array to determine what chunks are being used
         ArrayList<Chunk> chunks = new ArrayList<>();
         boolean startedChunk = false;
         int start = 0;
@@ -46,7 +46,7 @@ public class Directory implements Serializable{
         return chunks;
     }
 
-    public void addFile(VipeFile file) {
+    public void addFile(VipeFile file) { //Adds the file based on parameters entered and changes sectors array and updates chunk objects
         
         
         int size = file.getFileSize();
@@ -65,7 +65,7 @@ public class Directory implements Serializable{
 
     }
     
-    public void deleteFile(int id) {
+    public void deleteFile(int id) { //Removes file from sectors completley
         for (int i = 0; i < sectors.length; i++) {
             if (sectors[i] == id) {
                 sectors[i] = 0;
@@ -97,23 +97,23 @@ public class Directory implements Serializable{
         if (files.get(index).getFileSize() < size) {
             diff = size - files.get(index).getFileSize();
             
-            for (int i = 0; i < diff; i++) {
+            /*for (int i = 0; i < diff; i++) {
                 if (sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() + i] != 0) {
                     diff++;
                 }
                 else {
                     sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() + i] = id;
                 }
-            }
+            }*/
             
-            /*for (int i = 0; i < diff; i++) {
+            for (int i = 0; i < diff; i++) {
                 for (int j = 0; j < sectors.length; j++) {
                     if (sectors[j] == 0) {
                         sectors[j] = id;
                         break;
                     }
                 }
-            }*/
+            }
         }
         
         else {

@@ -401,21 +401,21 @@ public class MainWindow extends javax.swing.JFrame {
     
     //Updates Table with information from directory dir object
     public void updateTable() {
-        DefaultTableModel tab = (DefaultTableModel) table.getModel();
+        DefaultTableModel tab = (DefaultTableModel) table.getModel(); //Creates table to edit
         while (tab.getRowCount() > 0)
             tab.removeRow(0);
-        ArrayList<VipeFile> temp = dir.getFiles();
+        ArrayList<VipeFile> temp = dir.getFiles(); //Gets edited files to change table based off of
         int sum = 0;
         
         for (int i = 0; i < temp.size(); i++) {
            
             Object[] content = {temp.get(i).getFileName(), temp.get(i).getSectorColor(), 
-                new Integer(temp.get(i).getFileID()), new Integer(temp.get(i).getFileSize())};
-            tab.addRow(content);
-            sum += temp.get(i).getFileSize();
+                new Integer(temp.get(i).getFileID()), new Integer(temp.get(i).getFileSize())}; //Gets information from files ArrayList and adds to Array
+            tab.addRow(content); //Adds the array to the table
+            sum += temp.get(i).getFileSize(); //Calculates the sum for the labels
         }
         
-        takenLabel.setText("" + sum);
+        takenLabel.setText("" + sum); //Updates the labels
         leftLabel.setText((600 - sum) + "");
         
     }
@@ -423,7 +423,7 @@ public class MainWindow extends javax.swing.JFrame {
     public void updateGraph() {
         GridPanel gp = (GridPanel) grid;
         
-        gp.updateGrid(dir.sectors);
+        gp.updateGrid(dir.getSectors()); //Calls to the GridPanel and sends the updated sectors
     }
     
     //Add button pressed to show Add Dialog
@@ -444,19 +444,19 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         }
         try {
-            int newID = getNextID();
-            Color col = getColor(newID);
+            int newID = getNextID(); //Generates new ID
+            Color col = getColor(newID); //Generates new Color
 
-            dir.addFile(new VipeFile(new Integer(newSize.getText()), newName.getText(), col, newID));
+            dir.addFile(new VipeFile(new Integer(newSize.getText()), newName.getText(), col, newID)); //Creates new file under the Directory class
 
 
-            updateTable();
-            updateGraph();
+            updateTable(); //Updates the table
+            updateGraph(); //Updates the gridpanel graphic
 
-            addDialog.setVisible(false);
+            addDialog.setVisible(false); //Closes out dialog box
             addDialog.dispose();
 
-            newSize.setText("");
+            newSize.setText(""); //Clears text in the dialog box after use
             newName.setText("");   
         }
         catch (Exception e) {
@@ -466,9 +466,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     //When the delete button is pressed to delete file
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-    
-        dir.deleteFile((int) table.getModel().getValueAt(table.getSelectedRow(), 2));
-        updateGraph();
+        dir.deleteFile((int) table.getModel().getValueAt(table.getSelectedRow(), 2)); //Deletes the file by dedecting the file selected
+ 
+        updateGraph(); //Updates table and gridpanel
         updateTable();
     }//GEN-LAST:event_deleteActionPerformed
 
@@ -484,13 +484,13 @@ public class MainWindow extends javax.swing.JFrame {
     private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
         JFileChooser jfc = new JFileChooser();
         
-        if(jfc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+        if(jfc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) { //Opens the dialog box if the select to choose a file location
             try {
-                File file = jfc.getSelectedFile();
+                File file = jfc.getSelectedFile(); //Creates file object to write to
                 
                 FileOutputStream fos = new FileOutputStream(file);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(dir);
+                oos.writeObject(dir); //Writes the file information
             }
             
             catch (IOException e) {
@@ -502,19 +502,19 @@ public class MainWindow extends javax.swing.JFrame {
 
     //If open button is pressed under file then open a file chooser to choose where to save the file
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
-        JFileChooser jfc = new JFileChooser();
+        JFileChooser jfc = new JFileChooser(); 
         
-        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { //Opens the dialog box if the select to choose a file location
             try {
-                File file = jfc.getSelectedFile();
+                File file = jfc.getSelectedFile(); //Creates file object to write to
                 FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream cis = new ObjectInputStream(fis);
+                ObjectInputStream cis = new ObjectInputStream(fis); //Reads the file information
                 
                 try {
-                    dir = (Directory)cis.readObject();
-                    GridPanel gp = (GridPanel) grid;
-        
-                    gp.updateGrid(dir.sectors);
+                    dir = (Directory)cis.readObject(); //After taking information updates directory
+                    updateGraph(); //Updates gridpanel and table based on information
+                    updateTable();
+                    
                 }
                 catch (ClassNotFoundException es) {
                    JOptionPane.showMessageDialog(this, es.toString()); 
@@ -547,16 +547,16 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         }
         try {
-            int newID = (int) table.getModel().getValueAt(table.getSelectedRow(), 2);
-            dir.editFile(newID, new Integer(dialog_newSize.getText()), dialog_newName.getText());
+            int newID = (int) table.getModel().getValueAt(table.getSelectedRow(), 2); //Gets Id from selected row on the table
+            dir.editFile(newID, new Integer(dialog_newSize.getText()), dialog_newName.getText()); //Edits file based on what is entered on the parameters
 
-            updateTable();
-            updateGraph();
+            updateTable(); //Updates table
+            updateGraph(); //Updates graph
 
-            editDialog.setVisible(false);
+            editDialog.setVisible(false); //Closes dialog after finished
             editDialog.dispose();
 
-            dialog_newSize.setText("");
+            dialog_newSize.setText(""); //Clears textboxes after dialog is finsihed
             dialog_newName.setText("");
         }
         
@@ -574,12 +574,12 @@ public class MainWindow extends javax.swing.JFrame {
     //Generate an ID for new Files
     private int getNextID() {
         int max = 0;
-        for (int i = 0; i < dir.files.size(); i++) {
+        for (int i = 0; i < dir.files.size(); i++) { //Finds highest ID
             if (max < dir.files.get(i).getFileID()) {
                 max = dir.files.get(i).getFileID();
             }
         }
-        return max + 1;
+        return max + 1; //Makes new ID higher the biggest ID
     }
     /**
      * @param args the command line arguments
@@ -589,7 +589,7 @@ public class MainWindow extends javax.swing.JFrame {
     private Color getColor(int id) {
         Color color = Color.red;
         
-        switch (id) {
+        switch (id) { //Generates color based on modulus of 6
             case 1 : 
                 color = Color.red;
                 break;
