@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Set;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -143,9 +144,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenuItem3.setText("jMenuItem3");
 
-        editDialog.setMaximumSize(new java.awt.Dimension(280, 170));
         editDialog.setMinimumSize(new java.awt.Dimension(280, 170));
-        editDialog.setPreferredSize(new java.awt.Dimension(280, 170));
         editDialog.setResizable(false);
 
         jLabel3.setText("New File Name:");
@@ -324,6 +323,11 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.add(saveAs);
 
         jMenuItem6.setText("Close");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
@@ -399,6 +403,8 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
+    File savedFile;
+    
     //Updates Table with information from directory dir object
     public void updateTable() {
         DefaultTableModel tab = (DefaultTableModel) table.getModel(); //Creates table to edit
@@ -473,11 +479,34 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        //New File
+        dir.setFiles(new ArrayList<VipeFile>());
+        dir.setSectors(new int[600]);
+        
+        updateGraph();
+        updateTable();
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
+        //Saves file
+        try {
+                if (savedFile == null) {
+                    saveAsActionPerformed(evt);
+                }
+                
+                File file = savedFile; //Creates file object to write to
+                
+                
+                FileOutputStream fos = new FileOutputStream(file);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(dir); //Writes the file information
+            }
+            
+            catch (IOException e) {
+                JOptionPane.showMessageDialog(this, e.toString());
+
+            }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     //If save as button is pressed under file then open a filer chooser to choose where to save the file
@@ -487,6 +516,7 @@ public class MainWindow extends javax.swing.JFrame {
         if(jfc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) { //Opens the dialog box if the select to choose a file location
             try {
                 File file = jfc.getSelectedFile(); //Creates file object to write to
+                savedFile = file;
                 
                 FileOutputStream fos = new FileOutputStream(file);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -570,6 +600,10 @@ public class MainWindow extends javax.swing.JFrame {
         editDialog.setVisible(false);
         editDialog.dispose();
     }//GEN-LAST:event_editDialog_cancelActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     //Generate an ID for new Files
     private int getNextID() {

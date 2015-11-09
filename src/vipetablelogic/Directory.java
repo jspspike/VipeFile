@@ -31,7 +31,7 @@ public class Directory implements Serializable{
         boolean startedChunk = false;
         int start = 0;
         int end = 0;
-        for (int i = 0; i < sectors.length; i++) {
+        for (int i = 0; i < sectors.length; i++) { //Gets every section with chunk
             if (sectors[i] == fileID && !startedChunk) {
                start = i;
                startedChunk = true;
@@ -51,8 +51,8 @@ public class Directory implements Serializable{
         
         int size = file.getFileSize();
         for (int i = 0; i < size; i++) {
-            for (int j = 0; j < sectors.length; j++) {
-                if (sectors[j] == 0) {
+            for (int j = 0; j < sectors.length; j++) { //Goes from begninng of sectors and runs through all of them
+                if (sectors[j] == 0) { //If sector is available
                     sectors[j] = file.getFileID();
                     break;
                 }
@@ -66,8 +66,8 @@ public class Directory implements Serializable{
     }
     
     public void deleteFile(int id) { //Removes file from sectors completley
-        for (int i = 0; i < sectors.length; i++) {
-            if (sectors[i] == id) {
+        for (int i = 0; i < sectors.length; i++) { //Goes through ever sector
+            if (sectors[i] == id) { //IF sector of id needed to delete clear sector
                 sectors[i] = 0;
             }
         }
@@ -79,10 +79,10 @@ public class Directory implements Serializable{
         }
     }
     
-    public void editFile(int id, int size, String name) {
+    public void editFile(int id, int size, String name) { //Changes sectors and name from given id parameter
         int diff;
         int index = -1;
-        for (int i = 0; i < files.size(); i++) {
+        for (int i = 0; i < files.size(); i++) { //Gets index of ID
             if (files.get(i).getFileID() == id) {
                 index = i;
                 break;
@@ -91,22 +91,15 @@ public class Directory implements Serializable{
         
        
         
-        if (files.get(index).getFileSize() == size)
+        if (files.get(index).getFileSize() == size) //If no changes needed
             return;
         
-        if (files.get(index).getFileSize() < size) {
+        if (files.get(index).getFileSize() < size) { //If you need to add more sectors
             diff = size - files.get(index).getFileSize();
             
-            /*for (int i = 0; i < diff; i++) {
-                if (sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() + i] != 0) {
-                    diff++;
-                }
-                else {
-                    sectors[files.get(index).getChunk(files.get(index).chunks.size() - 1).getEndIndex() + i] = id;
-                }
-            }*/
+
             
-            for (int i = 0; i < diff; i++) {
+            for (int i = 0; i < diff; i++) { //Goes through beginning of sectors and adds sectors
                 for (int j = 0; j < sectors.length; j++) {
                     if (sectors[j] == 0) {
                         sectors[j] = id;
@@ -116,7 +109,7 @@ public class Directory implements Serializable{
             }
         }
         
-        else {
+        else { //If you want to reduce sectors
             int endofdelete = 0;
             diff = files.get(index).getFileSize() - size;
             for (int i = diff; i > endofdelete; i--) {
